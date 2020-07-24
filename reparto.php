@@ -50,6 +50,13 @@
         while ($row = pg_fetch_array($result)) {
             print("<option value=\"$row[nome]\">$row[nome]</option>");
         }
+		print("</td></tr>");
+		print("<tr><th>Responsabile</th><td> <select name=\"codFiscale\" id=\"codFiscale\">");
+        $query="SELECT codFiscale FROM Lavoratore JOIN Reparto ON codFiscale=responsabile";
+		$result =  pg_query($conn, $query);
+        while ($row = pg_fetch_array($result)) {
+            print("<option value=\"$row[codfiscale]\">$row[codfiscale]</option>");
+        }
         print("</td></tr>");
         print("<tr><td><input type=\"submit\" name=\"idata\" value=\"InsertReparto\"></td></tr>");
         print("</form>");
@@ -61,7 +68,7 @@
 			die('Connessione al database fallita.');
 		} else {
 			$nome=isset($_POST['nome'])?$_POST['nome']:'';
-			$citta=isset($_POST['supermercato'])?$_POST['supermercato']:'';
+			$supermercato=isset($_POST['supermercato'])?$_POST['supermercato']:'';
 
 			$query="INSERT INTO reparto (nome, supermercato) VALUES ('$nome','$supermercato')";
 			$result = pg_query($conn,$query);
