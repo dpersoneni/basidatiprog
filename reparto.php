@@ -61,7 +61,7 @@
 			die('Connessione al database fallita.');
 		} else {
 			$nome=isset($_POST['nome'])?$_POST['nome']:'';
-			$citta=isset($_POST['supermercato'])?$_POST['supermercato']:'';
+			$supermercato=isset($_POST['supermercato'])?$_POST['supermercato']:'';
 
 			$query="INSERT INTO reparto (nome, supermercato) VALUES ('$nome','$supermercato')";
 			$result = pg_query($conn,$query);
