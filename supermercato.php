@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Supermercato</title>
 </head>
 <body>
-<p class="form">
+
 <?php
 
     	$conn = pg_connect("host=localhost port=5432 dbname=essecorta user=postgres password=postgres");
@@ -21,7 +22,7 @@
 				echo pg_last_error($conn);
 				exit();
 			} else {
-				echo '<table align="left">
+				echo '<br><table class="form">
 				<tr>
 					<th>Nome</th>
 					<th>Città</td>
@@ -41,8 +42,8 @@
 				echo '</table>';
 			};
 		}
-
-		print("<table>");
+        print("<h2>Inserimento</h2>");
+        print("<table class=\"form\">");
 		print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
         print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" required pattern=\"{10,30}\" title=\"nome supermercato\"></td></tr>");
         print("<tr><th>Via</th><td><input type=\"text\" name=\"via\"></td></tr>");
