@@ -75,6 +75,33 @@
 					//exit();
 			}
 		}
+	}
+	
+	print("<h2>Cancellazione</h2>");
+        print("<table class=\"form\">");
+		print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
+        print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" required pattern=\"{10,30}\" title=\"nome supermercato da eliminare\"></td></tr>");
+        print("<tr><td><input type=\"submit\" name=\"idata\" value=\"Delete\"></td></tr>");
+        print("</form>");
+		print("</table>"); 
+		
+		if( isset($_POST['idata']) and $_POST['idata']=='Delete') {   
+        	$conn = pg_connect("host=localhost port=5432 dbname=essecorta user=postgres password=postgres");
+		if (!$conn){
+			die('Connessione al database fallita.');
+		} else {
+			$nome=isset($_POST['nome'])?$_POST['nome']:'';
+
+			$query="DELETE FROM supermercato WHERE nome='$nome'";
+			$result = pg_query($conn,$query);
+			if ($result){
+				header('Location: supermercato.php');
+			}else{
+					echo "Si è verificato un errore.<br/>";
+					echo pg_last_error($conn);
+					//exit();
+			}
+		}
     }
    
 ?>
