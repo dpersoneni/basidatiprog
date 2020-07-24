@@ -21,7 +21,7 @@
 				echo pg_last_error($conn);
 				exit();
 			} else {
-				echo '<br><table align="left">
+				echo '<table align="left">
 				<tr>
 					<th>Nome</th>
 					<th>Città</td>
@@ -38,11 +38,11 @@
 						<td>'. $row['cap'].'</td>	
 					</tr>';//<td>'. $row['nint'].'</td>
 				};
-				echo '</table><br>';
+				echo '</table>';
 			};
 		}
 
-		print("<br><br><table>");
+		print("<table>");
 		print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
         print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" required pattern=\"{10,30}\" title=\"nome supermercato\"></td></tr>");
         print("<tr><th>Via</th><td><input type=\"text\" name=\"via\"></td></tr>");
@@ -67,7 +67,7 @@
 			$query="INSERT INTO supermercato (nome, citta, via, nciv, cap) VALUES ('$nome','$citta','$via','$nciv','$cap')";
 			$result = pg_query($conn,$query);
 			if ($result){
-				header('Location: supermercato.php'); 
+				header('Location: supermercato.php');
 			}else{
 					echo "Si è verificato un errore.<br/>";
 					echo pg_last_error($conn);
@@ -77,6 +77,5 @@
     }
    
 ?>
-	</p>
 </body>
 </html>
