@@ -9,7 +9,6 @@
 <body>
     <h1>Supermercato</h1>
 <?php
-
     	$conn = pg_connect("host=localhost port=5432 dbname=essecorta user=postgres password=postgres");
 		if (!$conn){
 			die('Connessione al database fallita.');
@@ -37,11 +36,13 @@
 						<td>'. $row['via'].'</td>
 						<td>'. $row['nciv'].'</td>          
 						<td>'. $row['cap'].'</td>	
-					</tr>';//<td>'. $row['nint'].'</td>
-				};
+					</tr>';
+				}
 				echo '</table>';
-			};
+			}
 		}
+
+		//INSERIMENTO Supermercato
         print("<h2>Inserimento</h2>");
         print("<table class=\"form\">");
 		print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
@@ -55,10 +56,7 @@
 		print("</table>"); 
 		
 		if( isset($_POST['idata']) and $_POST['idata']=='Send') {   
-        	$conn = pg_connect("host=localhost port=5432 dbname=essecorta user=postgres password=postgres");
-		if (!$conn){
-			die('Connessione al database fallita.');
-		} else {
+
 			$nome=isset($_POST['nome'])?$_POST['nome']:'';
 			$citta=isset($_POST['citta'])?$_POST['citta']:'';
 			$via=isset($_POST['via'])?$_POST['via']:'';
@@ -70,26 +68,22 @@
 			if ($result){
 				header('Location: supermercato.php');
 			}else{
-					echo "Si è verificato un errore.<br/>";
-					echo pg_last_error($conn);
-					//exit();
+				echo "Si è verificato un errore.<br/>";
+				echo pg_last_error($conn);
 			}
 		}
-	}
 	
-	print("<h2>Cancellazione</h2>");
+		//CANCELLAZIONE Supermercato
+		print("<h2>Cancellazione</h2>");
         print("<table class=\"form\">");
 		print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
-        print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" required pattern=\"{10,30}\" title=\"nome supermercato da eliminare\"></td></tr>");
+        print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" pattern=\"{10,30}\" title=\"nome supermercato da eliminare\"></td></tr>");
         print("<tr><td><input type=\"submit\" name=\"idata\" value=\"Delete\"></td></tr>");
         print("</form>");
 		print("</table>"); 
 		
 		if( isset($_POST['idata']) and $_POST['idata']=='Delete') {   
-        	$conn = pg_connect("host=localhost port=5432 dbname=essecorta user=postgres password=postgres");
-		if (!$conn){
-			die('Connessione al database fallita.');
-		} else {
+
 			$nome=isset($_POST['nome'])?$_POST['nome']:'';
 
 			$query="DELETE FROM supermercato WHERE nome='$nome'";
@@ -97,13 +91,11 @@
 			if ($result){
 				header('Location: supermercato.php');
 			}else{
-					echo "Si è verificato un errore.<br/>";
-					echo pg_last_error($conn);
-					//exit();
+				echo "Si è verificato un errore.<br/>";
+				echo pg_last_error($conn);
 			}
 		}
-    }
-   
+
 ?>
 </body>
 </html>
