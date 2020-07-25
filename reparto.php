@@ -154,38 +154,36 @@
 			}
         }
     print("<h2>Mansioni nei reparti</h2>");
-	$query="SELECT L.mansione, R.nome  FROM lavoratore L JOIN reparto R ON L.reparto=R.id ";
+	$query="SELECT L.mansione, R.nome, R.id, R.supermercato  FROM lavoratore L JOIN reparto R ON L.reparto=R.id ORDER BY R.supermercato";
 			$result =  pg_query($conn, $query);
 			if (!$result) {
 				echo "Si è verificato un errore.<br/>";
 				echo pg_last_error($conn);
 				exit();
 			} else {
-				echo '<br><table class="form">
+				echo '<table class="form">
 				<tr>
 					<th>Mansione</th>
 					<th>Reparto</td>
 					<th>Lavoratore</td>
 				</tr>';
 				while ($row = pg_fetch_array($result)) {
-					
-					echo '<tr>
+
+					$query1="SELECT codfiscale, nome, cognome FROM Lavoratore WHERE mansione='".$row['mansione']."' AND reparto='".$row['id']."'";
+                    $result1 =  pg_query($conn, $query1);
+                    
+                    echo '<tr>
 						<td>'. $row['mansione'].'</td>
-						<td>'. $row['nome'].'</td>';
+						<td>'. $row['supermercato'].', '.$row['nome'].'</td>';
 					
-					
-					print("<td> <select name=\"supermercato\" id=\"supermercato\"><option value=\"\"></option>");
-					$query1="SELECT codfiscale FROM Lavoratore WHERE mansione=\'".$row['mansione']."\'";
-					$result1 =  pg_query($conn, $query1);
+					print("<td>");
 					while ($row1 = pg_fetch_array($result1)) {
-						print("<option value=\"$row1[codfiscale]\">$row1[codfiscale]</option>");
+						print("<br> $row1[codfiscale]. $row1[nome] $row1[cognome]");
 					}
 					print("</td></tr>");
 				}
 				echo '</table>';
-			}
-
-		
+			}		
 
 ?>
 </body>
