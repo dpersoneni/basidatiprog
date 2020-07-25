@@ -32,7 +32,7 @@
                     <th>Mansione</th>
                     <th>Livello</th>
                     <th>Città</th>
-                    <th>Via</th> 
+                    <th>Via</th>
                     <th>CAP</th>
                     <th>Data Assunzione</th>
                     <th>Reparto</th>
@@ -58,73 +58,87 @@
 			}
         }
 
+        //INSERIMENTO Lavoratore
         print("<h2>Inserimento</h2>");
         print("<table class=\"form\">");
         print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
+        print("<tr><th>Cod Fiscale</th><td><input type=\"text\" name=\"codfiscale\" pattern=\".{13,}\" title=\"CF non idoneo\"></td>");
+        print("    <th>Nome</th><td><input type=\"text\" name=\"nome\"</td>");
+        print("    <th>Cognome</th><td><input type=\"text\" name=\"cognome\" </td>");
+        print("    <th>Telefono</th><td><input type=\"text\" name=\"telefono\" pattern=\"[0-9].{6,10}\" title=\"only digits\"></td></tr>");
+        print("<tr><th>Data Nascita</th><td><input type=\"date\" name=\"datanascita\" ></td>");
+        print("    <th>E-mail</th><td><input type=\"text\" name=\"email\" pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$\" title=\"no valid value\"></td>");
+        print("    <th>Mansione</th><td><input type=\"text\" name=\"mansione\" ></td>");
+        print("    <th>Livello</th><td><input type=\"text\" name=\"livello\" pattern=\"[1-5]\" title=\"no valid value\"></td></tr>");
+        print("<tr><th>Città</th><td><input type=\"text\" name=\"citta\" ></td>");
+        print("    <th>Via</th><td><input type=\"text\" name=\"via\" ></td>");
+        print("    <th>Civico</th><td><input type=\"text\" name=\"nciv\" ></td>");
+        print("    <th>CAP</th><td><input type=\"text\" name=\"cap\" ></td></tr>");
+        print("<tr><th>Data Assunzione</th><td><input type=\"date\" name=\"dataassunzione\" ></td>");
 
-        echo '<br><table class="form">
-				<tr>
-					
-                    <th>Telefono</th>
-                    <th>Data Nascita</th>
-                    <th>E-mail</th>
-                    <th>Mansione</th>
-                    <th>Livello</th>
-                    <th>Città</th>
-                    <th>Via</th>
-                    <th>Civico</th> 
-                    <th>CAP</th>
-                    <th>Data Assunzione</th>
-                    <th>Reparto</th>
-				</tr>';
-        print("<tr>");
-        print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" required pattern=\"{5,20}\"></td></tr>");
-
-        print("<tr><th>Cod Fiscale</th><td><input type=\"text\" name=\"codfiscale\" required pattern=\".{13,13}\"></td></tr>");
-        print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" ></td></tr>");
-        print("<tr><th>Cognome</th><td><input type=\"text\" name=\"cognome\" ></td></tr>");
-        print("<tr><td><input type=\"text\" name=\"telefono\" ></td></tr>");
-        print("<tr><td><input type=\"text\" name=\"datanascita\" ></td></tr>");
-        print("<tr><td><input type=\"text\" name=\"email\" ></td></tr>");
-        print("<tr><td><input type=\"text\" name=\"mansione\" ></td></tr>");
-        print("<tr><td><input type=\"text\" name=\"livello\" ></td></tr>");
-        print("<tr><td><input type=\"text\" name=\"citta\" ></td></tr>");
-        print("<tr><td><input type=\"text\" name=\"via\" ></td></tr>");
-        print("<tr><td><input type=\"text\" name=\"nciv\" ></td></tr>");
-        print("<tr><td><input type=\"text\" name=\"cap\" ></td></tr>");
-        print("<tr><td><input type=\"date\" name=\"dataassunzione\" ></td></tr>");
-        print("<tr><td><input type=\"text\" name=\"reparto\" ></td></tr>");
-
-		print("<tr><th>Responsabile</th><td> <select name=\"codFiscale\" id=\"codFiscale\">");
-        $query="SELECT codFiscale FROM Lavoratore JOIN Reparto ON codFiscale=responsabile";
+        print("    <th>Reparto</th><td colspan=\"2\"> <select name=\"reparto\" id=\"reparto\"><option value=\"\"></option>");
+        $query="SELECT id,nome,supermercato FROM Reparto";
 		$result =  pg_query($conn, $query);
         while ($row = pg_fetch_array($result)) {
-            print("<option value=\"$row[codfiscale]\">$row[codfiscale]</option>");
+            print("<option value=\"$row[id]\">$row[id] ($row[nome], $row[supermercato])</option>");
         }
-        print("</td></tr>");
-        print("<tr><td><input type=\"submit\" name=\"idata\" value=\"InsertReparto\"></td></tr>");
+		print("</td></tr>");
+        print("<tr><td><input type=\"submit\" name=\"idata\" value=\"Insert\"></td></tr>");
         print("</form>");
 		print("</table>"); 
 		
-		if( isset($_POST['idata']) and $_POST['idata']=='InsertReparto') {   
-        	$conn = pg_connect("host=localhost port=5432 dbname=essecorta user=postgres password=postgres");
-		if (!$conn){
-			die('Connessione al database fallita.');
-		} else {
-			$nome=isset($_POST['nome'])?$_POST['nome']:'';
-			$supermercato=isset($_POST['supermercato'])?$_POST['supermercato']:'';
+		if( isset($_POST['idata']) and $_POST['idata']=='Insert') {   
+        	
+            $codfiscale=isset($_POST['codfiscale'])?$_POST['codfiscale']:'';
+            $nome=isset($_POST['nome'])?$_POST['nome']:'';
+            $cognome=isset($_POST['cognome'])?$_POST['cognome']:'';
+            $telefono=isset($_POST['telefono'])?$_POST['telefono']:'';
+            $datanascita=isset($_POST['datanascita'])?$_POST['datanascita']:'';
+            $email=isset($_POST['email'])?$_POST['email']:'';
+            $mansione=isset($_POST['mansione'])?$_POST['mansione']:'';
+            $livello=isset($_POST['livello'])?$_POST['livello']:'';
+            $citta=isset($_POST['citta'])?$_POST['citta']:'';
+            $via=isset($_POST['via'])?$_POST['via']:'';
+            $nciv=isset($_POST['nciv'])?$_POST['nciv']:'';
+            $cap=isset($_POST['cap'])?$_POST['cap']:'';
+            $dataassunzione=isset($_POST['dataassunzione'])?$_POST['dataassunzione']:'';
+            $reparto=isset($_POST['reparto'])?$_POST['reparto']:'';
 
-			$query="INSERT INTO reparto (nome, supermercato) VALUES ('$nome','$supermercato')";
+			$query="INSERT INTO lavoratore (codfiscale, nome, cognome, telefono, datanascita, email, mansione, livello, citta, via, nciv, cap, dataassunzione, reparto) 
+                VALUES ('$codfiscale','$nome','$cognome','$telefono','$datanascita','$email','$mansione','$livello','$citta','$via','$nciv','$cap','$dataassunzione','$reparto') ";
 			$result = pg_query($conn,$query);
 			if ($result){
-				header('Location: reparto.php');
+                echo "funziona invio DA SISTEMARE";
+				//header('Location: lavoratore.php');
+			}else{
+					echo "Si è verificato un errore.<br/>";
+					echo pg_last_error($conn);
+			}
+        }
+        
+        //CANCELLAZIONE Lavoratore
+        print("<h2>Cancellazione</h2>");
+        print("<table class=\"form\">");
+		print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
+        print("<tr><th>Codice Fiscale</th><td><input type=\"text\" name=\"codfiscale\"></td></tr>");
+        print("<tr><td><input type=\"submit\" name=\"idata\" value=\"Delete\"></td></tr>");
+        print("</form>");
+		print("</table>"); 
+		
+		if( isset($_POST['idata']) and $_POST['idata']=='Delete') {   
+        			
+            $codfiscale=isset($_POST['codfiscale'])?$_POST['codfiscale']:'';
+            
+			$query="DELETE FROM Lavoratore WHERE codfiscale='$codfiscale'";
+			$result = pg_query($conn,$query);
+			if ($result){
+                echo "funziona ELIMINA DA SISTEMARE";
+				//header('Location: reparto.php');
 			}else{
 					echo "Si è verificato un errore.<br/>";
 					echo pg_last_error($conn);
 			}
 		}
-	}
-	
     ?>
 </body>
 </html>
