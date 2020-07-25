@@ -194,6 +194,48 @@
 				echo '</table>';
 			}		
 
+		//TURNI
+		print("<h2>Orari</h2>");		
+        $query="SELECT * FROM Reparto";
+        $result =  pg_query($conn, $query);
+        if (!$result) {
+            echo "Si è verificato un errore.<br/>";
+            echo pg_last_error($conn);
+            exit();
+        } else {
+			print("<table class=\"form\">");
+			print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");	
+			print("<th>Reparto</th> <td><select name=\"reparto\" id=\"reparto\"><option value=\"\"></option>");
+			$query="SELECT id,nome,supermercato FROM Reparto";
+			$result = pg_query($conn, $query);
+			while ($row = pg_fetch_array($result)) {
+				print("<option value=\"$row[id]\">$row[id] ($row[nome], $row[supermercato])</option>");
+			}
+			print("</td></tr>");
+			print("<tr><td><input type=\"submit\" name=\"idata\" value=\"Filter\"></td></tr>");
+			print("</form>");
+			print("</table>");
+			if( isset($_POST['idata']) and $_POST['idata']=='Filter' and isset($_POST['reparto']) and $_POST['reparto']!='') {
+
+				print("<table class=\"form\">");
+				print("<tr><th>Reparto</th><th>Lavoratore</th><th>Turni</th></tr>");
+				$querypersonale = "SELECT DISTINCT codfiscale FROM Lavoratore JOIN Turno ON lavoratore=codfiscale WHERE reparto='".$_POST['reparto']."'";
+				$resultpersonale = pg_query($conn, $querypersonale);
+				
+				while ($rowpersonale = pg_fetch_array($resultpersonale)) {
+					print("<tr><td>$_POST[reparto]</td><td>$rowpersonale[codfiscale]</td><td>");
+					$queryorari = "SELECT orainizio, orafine, giorno FROM Turno  WHERE Lavoratore='".$rowpersonale['codfiscale']."'";
+					$resultorari = pg_query($conn, $queryorari);
+					while ($roworari = pg_fetch_array($resultorari)) {
+						print("$roworari[giorno]: $roworari[orainizio] -  $roworari[orafine]<br/>");
+						
+					}
+					print("</td>");
+				}
+				print("</tr>");
+			}
+		}
+
 ?>
 </body>
 </html>
