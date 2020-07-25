@@ -128,18 +128,6 @@
                 print("<input type=\"hidden\" name=\"id\" value=\"$mod[id]\">");
                 print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" value=\"$mod[nome]\" pattern=\".{5,}\" title=\"no valid value\"\"></td>");
                 
-                /*
-                print("<th>Supermercato</th><td> <select name=\"supermercato\" id=\"supermercato\">");
-                print("<option value=\"$mod[supermercato]\">$mod[supermercato]</option>");
-                $query="SELECT nome FROM Supermercato";
-                $result =  pg_query($conn, $query);
-                while ($row = pg_fetch_array($result)) {
-                    if($mod[supermercato]!=$row[nome]){
-                        print("<option value=\"$row[nome]\">$row[nome]</option>");
-                    }
-                }
-                print("</td>");
-                */
                 print("<th>Responsabile</th><td> <select name=\"responsabile\" id=\"responsabile\">");
                 print("<option value=\"$mod[responsabile]\">$mod[responsabile]</option>");
                 $queryresp="SELECT codfiscale FROM Lavoratore JOIN Reparto ON reparto=id WHERE supermercato='".$mod[supermercato]."'"; 
@@ -155,26 +143,24 @@
                 print("</form>");
                 print("</table>"); 
                 
-                if( isset($_POST['idata']) and $_POST['idata']=='Update') { 
-                    
-                    echo'<script>concole.log("ciao")<script>';
-                    
-                    $nome=isset($_POST['nome'])?$_POST['nome']:'';
-                    $responsabile=isset($_POST['responsabile'])?$_POST['responsabile']:'';
-                    
-                    $query="UPDATE reparto SET nome='".$nome."', responsabile='".$responsabile."' WHERE id='".$_POST['id']."')";
-                    $result = pg_query($conn,$query);
-                    if ($result){
-                            echo "MODIFICA AVVENUTA.<br/>";
-                        //header('Location: reparto.php');
-                    }else{
-                            echo "Si è verificato un errore.<br/>";
-                            echo pg_last_error($conn);
-                    }
+            }
+            if( isset($_POST['idata']) and $_POST['idata']=='Update') { 
+                                        
+                $nome=isset($_POST['nome'])?$_POST['nome']:'';
+                $responsabile=isset($_POST['responsabile'])?$_POST['responsabile']:'';
+                
+                
+                $query="UPDATE reparto SET nome='".$nome."', responsabile='".$responsabile."' WHERE id='".$_POST['id']."'";
+                $result = pg_query($conn,$query);
+                if ($result){
+                        header('Location: reparto.php');
+                }else{
+                        echo "Si è verificato un errore.<br/>".$query."<br>";
+                        echo pg_last_error($conn);
                 }
             }
         }
-    
+        
         //MANSIONI Reparto
         print("<h2>Personale nei reparti</h2>");
         $query="SELECT L.mansione, R.nome, R.id, R.supermercato  FROM lavoratore L JOIN reparto R ON L.reparto=R.id ORDER BY R.supermercato";
