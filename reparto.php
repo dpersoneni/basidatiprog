@@ -103,24 +103,91 @@
             echo pg_last_error($conn);
             exit();
         } else {
-            echo '<table class="form">
-            <tr>
-                <th>Id</th>
-                <th>Nome</td>
-                <th>Supermercato</th>
-                <th>Responsabile</th>
-            </tr>';
-            while ($row = pg_fetch_array($result)) {
-                echo '<tr>
-                    <td>'. $row['id'].'</td>
-                    <td>'. $row['nome'].'</td>
-                    <td>'. $row['supermercato'].'</td>
-                    <td>'. $row['responsabile'].'</td>
-                </tr>';
-            }
-            echo '</table>';
+			print("<table class=\"form\">");
+			print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");	
+			print("    <th>Reparto</th><td colspan=\"2\"> <select name=\"reparto\" id=\"reparto\"><option value=\"\"></option>");
+			$query="SELECT id,nome,supermercato FROM Reparto";
+			$result =  pg_query($conn, $query);
+			while ($row = pg_fetch_array($result)) {
+				print("<option value=\"$row[id]\">$row[id] ($row[nome], $row[supermercato])</option>");
+			}
+			print("</td></tr>");
+			print("<tr><td><input type=\"submit\" name=\"idata\" value=\"Modifica\"></td></tr>");
+			print("</form>");
+			print("</table>"); 
+			
+			print("<table class=\"form\">");
+			print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
+			print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" pattern=\".{5,}\" title=\"no valid value\"\"></td></tr>");
+			print("<tr><th>Supermercato</th><td> <select name=\"supermercato\" id=\"supermercato\"><option value=\"\"></option>");
+			$query="SELECT nome FROM Supermercato";
+			$result =  pg_query($conn, $query);
+			while ($row = pg_fetch_array($result)) {
+				print("<option value=\"$row[nome]\">$row[nome]</option>");
+			}
+			print("</td></tr>");
+			print("<tr><th>Responsabile</th><td> <select name=\"codfiscale\" id=\"codfiscale\"><option value=\"\"></option>");
+			$query1="SELECT codfiscale FROM Lavoratore";
+			$result1 =  pg_query($conn, $query1);
+			while ($row1 = pg_fetch_array($result1)) {
+				print("<option value=\"$row1[codfiscale]\">$row1[codfiscale]</option>");
+			}
+			print("</td></tr>");
+			print("<tr><td><input type=\"submit\" name=\"idata\" value=\"Insert\"></td></tr>");
+			print("</form>");
+			print("</table>"); 
+			
+			if( isset($_POST['idata']) and $_POST['idata']=='Insert') {   
+				
+				$nome=isset($_POST['nome'])?$_POST['nome']:'';
+				$supermercato=isset($_POST['supermercato'])?$_POST['supermercato']:'';
+				$responsabile=isset($_POST['codfiscale'])?$_POST['codfiscale']:'';
+				
+				$query="UPDATE reparto SET nome='$nome',supermercato='$supermercato', responsabile='$responsabile' WHERE )";
+				$result = pg_query($conn,$query);
+				if ($result){
+					header('Location: reparto.php');
+				}else{
+						echo "Si è verificato un errore.<br/>";
+						echo pg_last_error($conn);
+				}
+			}
         }
-   
+    print("<h2>Mansioni nei reparti</h2>");
+	$query="SELECT L.mansione, R.nome  FROM lavoratore L JOIN reparto R ON L.reparto=R.id ";
+			$result =  pg_query($conn, $query);
+			if (!$result) {
+				echo "Si è verificato un errore.<br/>";
+				echo pg_last_error($conn);
+				exit();
+			} else {
+				echo '<br><table class="form">
+				<tr>
+					<th>Mansione</th>
+					<th>Reparto</td>
+					<th>Lavoratore</td>
+				</tr>';
+				while ($row = pg_fetch_array($result)) {
+					
+					echo '<tr>
+						<td>'. $row['mansione'].'</td>
+						<td>'. $row['nome'].'</td>';
+					
+					
+					print("<td> <select name=\"supermercato\" id=\"supermercato\"><option value=\"\"></option>");
+					$query1="SELECT codfiscale FROM Lavoratore WHERE mansione=\'".$row['mansione']."\'";
+					$result1 =  pg_query($conn, $query1);
+					while ($row1 = pg_fetch_array($result1)) {
+						print("<option value=\"$row1[codfiscale]\">$row1[codfiscale]</option>");
+					}
+					print("</td></tr>");
+				}
+				echo '</table>';
+			}
+
+		
+
 ?>
 </body>
 </html>
+

@@ -6,6 +6,7 @@
     letter-spacing: 1px;
     font-family: sans-serif;
     font-size: .8rem;
+    table-layout: auto;
 }
 td, th {
     border: 1px solid rgb(190, 190, 190);
