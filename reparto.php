@@ -24,7 +24,7 @@
 				echo '<br><table class="form">
 				<tr>
 					<th>Id</th>
-					<th>Nome</td>
+					<th>Nome</th>
 					<th>Supermercato</th>
 					<th>Responsabile</th>
 				</tr>';
