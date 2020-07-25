@@ -41,7 +41,6 @@
 			};
 		}
 		print("<h2>Inserimento</h2>");
-		print("<h1>GUARDA I COMMENTI NEL CODICE<\h1>");
         print("<table class=\"form\">");
 		print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
         print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" required pattern=\"{5,20}\"></td></tr>");
