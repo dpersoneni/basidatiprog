@@ -194,7 +194,7 @@
 				echo '</table>';
 			}		
 
-		//TURNI
+		//TURNI Reparto
 		print("<h2>Orari</h2>");		
         $query="SELECT * FROM Reparto";
         $result =  pg_query($conn, $query);
