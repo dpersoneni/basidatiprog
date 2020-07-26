@@ -7,7 +7,7 @@
     <title>EsseCorta</title>
 </head>
 <body>
-    <h1>Reparto</h1>
+    <h1>Reparto [<a href="index.html">home</a>]</h1>
 <?php
     	$conn = pg_connect("host=localhost port=5432 dbname=essecorta user=postgres password=postgres");
 		if (!$conn){

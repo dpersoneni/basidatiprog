@@ -7,7 +7,7 @@
     <title>EsseCorta</title>
 </head>
 <body>
-    <h1>Prodotto</h1>
+    <h1>Prodotto [<a href="index.html">home</a>]</h1>
 <?php
     	$conn = pg_connect("host=localhost port=5432 dbname=essecorta user=postgres password=postgres");
 		if (!$conn){
@@ -131,7 +131,7 @@
         }
 
         print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
-        
+
 
 
         print("</table>"); 
