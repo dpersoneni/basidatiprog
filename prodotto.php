@@ -47,10 +47,10 @@
         print("<table class=\"form\">");
 		print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
         print("<tr><th>Codice Barre</th><td><input type=\"text\" name=\"codbarre\" required pattern=\"[1-9].{10,}\" title=\"no valid value\"></td></tr>");
-        print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\"></td></tr>");
-        print("<tr><th>Punti</th><td><input type=\"text\" name=\"punti\"></td></tr>");
-        print("<tr><th>categoria</th><td><input type=\"text\" name=\"categoria\"></td></tr>");
-		print("<tr><th>Prezzo Pubblico</th><td><input type=\"text\" name=\"prezzopubblico\"></td></tr>");
+        print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" required></td></tr>");
+        print("<tr><th>Punti</th><td><input type=\"text\" name=\"punti\" required></td></tr>");
+        print("<tr><th>categoria</th><td><input type=\"text\" name=\"categoria\" required></td></tr>");
+		print("<tr><th>Prezzo Pubblico</th><td><input type=\"text\" name=\"prezzopubblico\" required></td></tr>");
         print("<tr><td><input type=\"submit\" name=\"idata\" value=\"Send\"></td></tr>");
         print("</form>");
 		print("</table>"); 
