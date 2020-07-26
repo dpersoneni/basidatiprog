@@ -141,7 +141,46 @@
 					echo "Si è verificato un errore.<br/>";
 					echo pg_last_error($conn);
 			}
-		}
+        }
+        
+        //MODIFCA Reparto Dipendente
+        print("<h2>Modifica Reparto Dipendente</h2>");
+        print("<table class=\"form\">");
+        print("<tr><th>Lavoratore</th><td colspan=\"2\"> <select name=\"codfiscale\" id=\"codfiscale\"><option value=\"\"></option>");
+        $query="SELECT codfiscale, nome, cognome, reparto FROM Lavoratore";
+        $result = pg_query($conn,$query);
+        while ($row = pg_fetch_array($result)) {
+            print("<option value=\"$row[codfiscale]$row[reparto]\">$row[codfiscale]. $row[cognome], $row[nome]</option>");
+        }
+        print("</td></tr>");
+        print("<tr><td><input type=\"submit\" name=\"idata\" value=\"Modify\"></td></tr>");
+        print("</form></table>");
+
+        if( isset($_POST['idata']) and $_POST['idata']=='Modify') {
+
+            $valoreconcatenato=isset($_POST['codfiscale'])?$_POST['codfiscale']:'';
+
+            $codfiscale=substr($valoreconcatenato,0,16);
+            $reparto=substr($valoreconcatenato,16);
+
+            print("<table class=\"form\">");
+            print("<tr><th>$codfiscale $reparto</th><td>Seleziona nuovo reparto</td><td><select name=\"reparto\" id=\"reparto\"><option value=\"\"></option>");
+            $query="SELECT * FROM Reparto WHERE supermercato=(SELECT supermercato FROM Reparto WHERE id='".$reparto."'";
+            $result = pg_query($conn,$query);
+            while ($row = pg_fetch_array($result)) {
+                print("<option value=\"$row[id]\">$row[id]. $row[nome] di $row[supermercato]</option>");
+            }
+            print("</td></tr>");
+            print("<tr><td><input type=\"submit\" name=\"idata\" value=\"Update\"></td></tr>");
+            print("</form></table>");
+        }
+
+        if( isset($_POST['idata']) and $_POST['idata']=='Update') {
+
+            
+
+        }
+
 ?>
 </body>
 </html>
