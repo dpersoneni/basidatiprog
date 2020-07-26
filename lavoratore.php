@@ -146,6 +146,7 @@
         //MODIFCA Reparto Dipendente
         print("<h2>Modifica Reparto Dipendente</h2>");
         print("<table class=\"form\">");
+        print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
         print("<tr><th>Lavoratore</th><td colspan=\"2\"> <select name=\"codfiscale\" id=\"codfiscale\"><option value=\"\"></option>");
         $query="SELECT codfiscale, nome, cognome, reparto FROM Lavoratore";
         $result = pg_query($conn,$query);
@@ -164,20 +165,39 @@
             $reparto=substr($valoreconcatenato,16);
 
             print("<table class=\"form\">");
-            print("<tr><th>$codfiscale $reparto</th><td>Seleziona nuovo reparto</td><td><select name=\"reparto\" id=\"reparto\"><option value=\"\"></option>");
-            $query="SELECT * FROM Reparto WHERE supermercato=(SELECT supermercato FROM Reparto WHERE id='".$reparto."'";
+            print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
+            print("<tr><th>$codfiscale, Reparto $reparto</th><td>Seleziona nuovo reparto</td><td><select name=\"reparto\" id=\"reparto\">");
+            $query="SELECT * FROM Reparto WHERE supermercato=(SELECT supermercato FROM Reparto WHERE id='".$reparto."')";
             $result = pg_query($conn,$query);
             while ($row = pg_fetch_array($result)) {
                 print("<option value=\"$row[id]\">$row[id]. $row[nome] di $row[supermercato]</option>");
             }
-            print("</td></tr>");
+            print("</td><td>Nuova mansione</td><td><input type=\"text\" name=\"mansione\"></td></tr>");
+            print("<input type=\"hidden\" name=\"codfiscale\" value=\"$codfiscale\">");
             print("<tr><td><input type=\"submit\" name=\"idata\" value=\"Update\"></td></tr>");
             print("</form></table>");
         }
 
         if( isset($_POST['idata']) and $_POST['idata']=='Update') {
 
-            
+            $reparto=isset($_POST['reparto'])?$_POST['reparto']:'';
+            $codfiscale=isset($_POST['codfiscale'])?$_POST['codfiscale']:'';
+            $mansione=isset($_POST['mansione'])?$_POST['mansione']:'';
+
+            $query="UPDATE lavoratore SET reparto='".$reparto."', mansione='".$mansione."' WHERE codfiscale='".$codfiscale."'";
+			$result = pg_query($conn,$query);
+			if ($result){
+				echo "<script>
+                    if(window.location.href.substr(-2) !== \"\") {
+                         window.location = window.location.href + \"\";
+                    }
+                    </script>";
+			}else{
+				echo "Si è verificato un errore.<br/>";
+				echo pg_last_error($conn);
+			}
+
+
 
         }
 
