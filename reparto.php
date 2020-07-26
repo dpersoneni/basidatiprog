@@ -44,7 +44,7 @@
 		print("<h2>Inserimento</h2>");
         print("<table class=\"form\">");
 		print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
-        print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" pattern=\".{5,}\" title=\"no valid value\"\"></td></tr>");
+        print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" required pattern=\".{5,}\" title=\"no valid value\"\"></td></tr>");
         print("<tr><th>Supermercato</th><td> <select name=\"supermercato\" id=\"supermercato\"><option value=\"\"></option>");
         $query="SELECT nome FROM Supermercato";
 		$result =  pg_query($conn, $query);
@@ -126,7 +126,7 @@
                 print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
                 print("<tr><th colspan=4>Id reparto: $mod[id]. Supermercato: $mod[supermercato]</th></tr>");
                 print("<input type=\"hidden\" name=\"id\" value=\"$mod[id]\">");
-                print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" value=\"$mod[nome]\" pattern=\".{5,}\" title=\"no valid value\"\"></td>");
+                print("<tr><th>Nome</th><td><input type=\"text\" name=\"nome\" value=\"$mod[nome]\" required pattern=\".{5,}\" title=\"no valid value\"\"></td>");
                 
                 print("<th>Responsabile</th><td> <select name=\"responsabile\" id=\"responsabile\">");
                 print("<option value=\"$mod[responsabile]\">$mod[responsabile]</option>");
