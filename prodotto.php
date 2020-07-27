@@ -129,12 +129,10 @@
         while ($row = pg_fetch_array($result)) {
             print("<tr><td>$row[supermercato]</td><td>$row[codbarre], $row[nome]</td><td>$row[datascadenza]</td><td>$row[qta]</td></tr>");
         }
-
         print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
+		print("</table>"); 
 
 
-
-        print("</table>"); 
 ?>
 </body>
 </html>
