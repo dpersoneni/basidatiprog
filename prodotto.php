@@ -132,20 +132,7 @@
         print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
 		print("</table>"); 
 
-		//PRODOTTI DA RIORDINARE
-        print("<h2>Prodotti da riordinare</h2>");
-        print("<table class=\"form\">");
-        print("<tr><th>Supermercato</th><th>Prodotto</th><th>Data Scadenza</th><th>Quantità</th></tr>");
-        $query='SELECT s.nome as supermercato, k.datascadenza, k.qta, p.codbarre, p.nome FROM Supermercato s JOIN Stock k ON s.nome=k.supermercato JOIN Prodotto p ON p.codbarre=k.prodotto';
-        $result= pg_query($conn,$query);
-        while ($row = pg_fetch_array($result)) {
-            print("<tr><td>$row[supermercato]</td><td>$row[codbarre], $row[nome]</td><td>$row[datascadenza]</td><td>$row[qta]</td></tr>");
-        }
 
-        print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
-		print("</table>"); 
-		
-			
 ?>
 </body>
 </html>
