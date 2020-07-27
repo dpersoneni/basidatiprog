@@ -136,24 +136,31 @@
                    if($rowresp[codfiscale] != $mod[responsabile]){
                         print("<option value=\"$rowresp[codfiscale]\">$rowresp[codfiscale]</option>");
                    }   
-                }
-                
+				}
+				print("<option value=\"\"></option>");
                 print("</td></tr>");
                 print("<tr><td><input type=\"submit\" name=\"idata\" value=\"Update\"></td></tr>");
                 print("</form>");
-                print("</table>"); 
+                print("</table>");
                 
             }
             if( isset($_POST['idata']) and $_POST['idata']=='Update') { 
                                         
                 $nome=isset($_POST['nome'])?$_POST['nome']:'';
-                $responsabile=isset($_POST['responsabile'])?$_POST['responsabile']:'';
-                
-                
-                $query="UPDATE reparto SET nome='".$nome."', responsabile='".$responsabile."' WHERE id='".$_POST['id']."'";
+				$responsabile=isset($_POST['responsabile'])?$_POST['responsabile']:'';
+				
+				if ($responsabile == ''){
+					$query="UPDATE reparto SET nome='".$nome."', responsabile=null WHERE id='".$_POST['id']."'";
+				} else{
+					$query="UPDATE reparto SET nome='".$nome."', responsabile='".$responsabile."' WHERE id='".$_POST['id']."'";
+				}
                 $result = pg_query($conn,$query);
                 if ($result){
-                        header('Location: reparto.php');
+					echo "<script>
+                    if(window.location.href.substr(-2) !== \"\") {
+                         window.location = window.location.href + \"\";
+                    }
+                    </script>";
                 }else{
                         echo "Si è verificato un errore.<br/>".$query."<br>";
                         echo pg_last_error($conn);
@@ -195,7 +202,7 @@
 			}		
 
 		//TURNI Reparto
-		print("<h2>Orari</h2>");		
+		print("<h2>Turni Lavoratori</h2>");		
         $query="SELECT * FROM Reparto";
         $result =  pg_query($conn, $query);
         if (!$result) {
