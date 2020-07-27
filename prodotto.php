@@ -120,7 +120,7 @@
         }
         print("</table>");
 
-        //PRODOTTI STOCK
+        //PRODOTTI Stock
         print("<h2>Prodotti in Stock</h2>");
         print("<table class=\"form\">");
         print("<tr><th>Supermercato</th><th>Prodotto</th><th>Data Scadenza</th><th>Quantità</th></tr>");
@@ -131,7 +131,6 @@
         }
         print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
 		print("</table>"); 
-
 
 ?>
 </body>

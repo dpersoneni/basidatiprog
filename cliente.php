@@ -79,7 +79,7 @@
 			}
 		}
     
-	    	//CANCELLAZIONE Supermercato
+	    //CANCELLAZIONE Cliente
 		print("<h2>Cancellazione</h2>");
         print("<table class=\"form\">");
         print("<form action=\"".htmlspecialchars($_SERVER['PHP_SELF'])."\" method=\"POST\">");
@@ -107,9 +107,7 @@
 				echo pg_last_error($conn);
 			}
         }
-
-     
-       
+    
 ?>
 </body>
 </html>

@@ -101,9 +101,14 @@
             $dataassunzione=isset($_POST['dataassunzione'])?$_POST['dataassunzione']:'';
             $reparto=isset($_POST['reparto'])?$_POST['reparto']:'';
 
-			$query="INSERT INTO lavoratore (codfiscale, nome, cognome, telefono, datanascita, email, mansione, livello, citta, via, nciv, cap, dataassunzione, reparto) 
-                VALUES ('$codfiscale','$nome','$cognome','$telefono','$datanascita','$email','$mansione','$livello','$citta','$via','$nciv','$cap','$dataassunzione','$reparto') ";
-			$result = pg_query($conn,$query);
+            if ($reparto == ''){
+                $query="INSERT INTO lavoratore (codfiscale, nome, cognome, telefono, datanascita, email, mansione, livello, citta, via, nciv, cap, dataassunzione, reparto)
+                VALUES ('$codfiscale','$nome','$cognome','$telefono','$datanascita','$email','$mansione','$livello','$citta','$via','$nciv','$cap','$dataassunzione',null) ";
+            } else{
+                $query="INSERT INTO lavoratore (codfiscale, nome, cognome, telefono, datanascita, email, mansione, livello, citta, via, nciv, cap, dataassunzione, reparto) 
+                VALUES ('$codfiscale','$nome','$cognome','$telefono','$datanascita','$email','$mansione','$livello','$citta','$via','$nciv','$cap','$dataassunzione','$reparto')";
+            }
+            $result = pg_query($conn,$query);
 			if ($result){
                 echo "<script>
                 if(window.location.href.substr(-2) !== \"?r\") {
@@ -196,9 +201,6 @@
 				echo "Si è verificato un errore.<br/>";
 				echo pg_last_error($conn);
 			}
-
-
-
         }
 
 ?>

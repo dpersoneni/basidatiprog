@@ -134,7 +134,11 @@
 			$query="INSERT INTO disponibilita (fornitore, prodotto, giorniconsegna, prezzofornitore, codprodfornitore) VALUES ('$fornitore','$prodotto','$giorniconsegna','$prezzofornitore','$codprodfornitore')";
 			$result = pg_query($conn,$query);
 			if ($result){
-				header('Location: fornitore.php');
+				echo "<script>
+                if(window.location.href.substr(-2) !== \"?r\") {
+                     window.location = window.location.href + \"?r\";
+                }
+                </script>";
 			}else{
 				echo "Si è verificato un errore.<br/>";
 				echo pg_last_error($conn);
